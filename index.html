@@ -1,0 +1,2617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WallZone</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#08090d;
+    --panel:#11131a;
+    --panel2:#191c25;
+    --text:#fff;
+    --muted:#9297a5;
+    --accent:#7c5cff;
+    --danger:#ff477e;
+    --border:#282c38;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:240px;
+    height:100vh;
+    background:var(--panel);
+    border-right:1px solid var(--border);
+    padding:25px 15px;
+    z-index:100;
+}
+
+.logo{
+    text-align:center;
+    font-size:27px;
+    font-weight:bold;
+    margin-bottom:35px;
+}
+
+.logo span{
+    color:var(--accent);
+}
+
+.menu-title{
+    color:var(--muted);
+    font-size:12px;
+    text-transform:uppercase;
+    margin:20px 12px 10px;
+}
+
+.menu button{
+    width:100%;
+    background:none;
+    border:0;
+    color:var(--muted);
+    text-align:left;
+    padding:13px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+    margin-bottom:5px;
+}
+
+.menu button:hover,
+.menu button.active{
+    background:var(--panel2);
+    color:white;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-left:240px;
+    min-height:100vh;
+}
+
+/* ================= TOPBAR ================= */
+
+.topbar{
+    height:75px;
+    background:rgba(8,9,13,.94);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    position:sticky;
+    top:0;
+    z-index:50;
+}
+
+.search{
+    width:500px;
+    position:relative;
+}
+
+.search input{
+    width:100%;
+    background:var(--panel);
+    border:1px solid var(--border);
+    outline:none;
+    color:white;
+    padding:13px 45px 13px 18px;
+    border-radius:30px;
+    font-size:15px;
+}
+
+.search-icon{
+    position:absolute;
+    right:17px;
+    top:12px;
+}
+
+.top-actions{
+    display:flex;
+    gap:10px;
+}
+
+.icon-btn{
+    width:42px;
+    height:42px;
+    border:0;
+    border-radius:50%;
+    background:var(--panel);
+    color:white;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.icon-btn:hover{
+    background:var(--accent);
+}
+
+.mobile-menu{
+    display:none;
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:35px;
+}
+
+.page-title{
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.page-subtitle{
+    color:var(--muted);
+    margin-bottom:30px;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    min-height:330px;
+    border-radius:22px;
+    overflow:hidden;
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    margin-bottom:40px;
+
+    background:
+    linear-gradient(
+        90deg,
+        rgba(0,0,0,.9),
+        rgba(0,0,0,.15)
+    ),
+    url("https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1600&q=90");
+
+    background-size:cover;
+    background-position:center;
+}
+
+.hero-content{
+    padding:35px;
+    max-width:600px;
+}
+
+.hero h2{
+    font-size:40px;
+    margin-bottom:12px;
+}
+
+.hero p{
+    color:#ddd;
+    line-height:1.6;
+    margin-bottom:20px;
+}
+
+.hero button{
+    border:0;
+    background:var(--accent);
+    color:white;
+    padding:13px 22px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* ================= SECTION ================= */
+
+.section{
+    margin-bottom:45px;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.section-header h2{
+    font-size:22px;
+}
+
+.section-header button{
+    border:0;
+    background:none;
+    color:#a78bfa;
+    cursor:pointer;
+}
+
+/* ================= CATEGORIES ================= */
+
+.categories{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:15px;
+}
+
+.category{
+    height:120px;
+    border-radius:15px;
+    overflow:hidden;
+    position:relative;
+    cursor:pointer;
+}
+
+.category img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.3s;
+}
+
+.category:hover img{
+    transform:scale(1.1);
+}
+
+.category::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        transparent,
+        rgba(0,0,0,.8)
+    );
+}
+
+.category span{
+    position:absolute;
+    bottom:12px;
+    left:15px;
+    z-index:2;
+    font-weight:bold;
+}
+
+/* ================= GALLERY ================= */
+
+.gallery{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fill,minmax(210px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:15px;
+    overflow:hidden;
+    position:relative;
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:var(--accent);
+}
+
+.wallpaper{
+    width:100%;
+    height:300px;
+    object-fit:cover;
+    cursor:pointer;
+    display:block;
+}
+
+.card-info{
+    padding:14px;
+}
+
+.card-title{
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+.card-category{
+    font-size:13px;
+    color:var(--muted);
+}
+
+.card-actions{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+}
+
+.card-actions button{
+    flex:1;
+    padding:9px;
+    border:0;
+    border-radius:8px;
+    cursor:pointer;
+    background:var(--panel2);
+    color:white;
+}
+
+.card-actions button:hover{
+    background:var(--accent);
+}
+
+.favorite{
+    position:absolute;
+    top:12px;
+    right:12px;
+    width:38px;
+    height:38px;
+    border:0;
+    border-radius:50%;
+    background:rgba(0,0,0,.65);
+    color:white;
+    cursor:pointer;
+    font-size:19px;
+    z-index:5;
+}
+
+.favorite.liked{
+    color:var(--danger);
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.93);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:500;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    max-width:900px;
+    width:100%;
+    max-height:95vh;
+    background:var(--panel);
+    border-radius:20px;
+    overflow:hidden;
+    position:relative;
+}
+
+.modal-img{
+    width:100%;
+    max-height:70vh;
+    object-fit:contain;
+    background:#000;
+    display:block;
+}
+
+.modal-info{
+    padding:20px;
+}
+
+.modal-info h2{
+    margin-bottom:7px;
+}
+
+.modal-info p{
+    color:var(--muted);
+}
+
+.modal-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+    flex-wrap:wrap;
+}
+
+.modal-buttons a,
+.modal-buttons button{
+    border:0;
+    padding:12px 20px;
+    border-radius:9px;
+    cursor:pointer;
+    text-decoration:none;
+    background:var(--accent);
+    color:white;
+}
+
+.delete-modal{
+    background:#8b1e3f !important;
+}
+
+.close{
+    position:absolute;
+    top:12px;
+    right:15px;
+    z-index:10;
+    width:40px;
+    height:40px;
+    border:0;
+    border-radius:50%;
+    background:rgba(0,0,0,.7);
+    color:white;
+    font-size:22px;
+    cursor:pointer;
+}
+
+/* ================= UPLOAD ================= */
+
+.upload-box{
+    background:var(--panel);
+    border:2px dashed var(--border);
+    border-radius:18px;
+    padding:35px;
+    text-align:center;
+}
+
+.upload-box h2{
+    margin-bottom:10px;
+}
+
+.upload-box p{
+    color:var(--muted);
+    margin-bottom:20px;
+    line-height:1.6;
+}
+
+.upload-label{
+    display:inline-block;
+    background:var(--accent);
+    padding:13px 22px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.upload-label:hover{
+    opacity:.85;
+}
+
+#fileInput{
+    display:none;
+}
+
+/* ================= PROGRESS ================= */
+
+.progress-container{
+    display:none;
+    margin-top:25px;
+}
+
+.progress-container.show{
+    display:block;
+}
+
+.progress-text{
+    color:var(--muted);
+    margin-bottom:8px;
+}
+
+.progress-bar{
+    height:10px;
+    background:var(--panel2);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress{
+    width:0%;
+    height:100%;
+    background:var(--accent);
+    transition:.2s;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.stat{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:20px;
+}
+
+.stat-number{
+    font-size:28px;
+    font-weight:bold;
+    color:#a78bfa;
+}
+
+.stat-text{
+    color:var(--muted);
+    margin-top:5px;
+}
+
+/* ================= EMPTY ================= */
+
+.empty{
+    display:none;
+    text-align:center;
+    padding:60px 20px;
+    color:var(--muted);
+}
+
+.empty h2{
+    color:white;
+    margin-bottom:8px;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    border-top:1px solid var(--border);
+    padding:30px;
+    text-align:center;
+    color:var(--muted);
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    color:white;
+    padding:14px 20px;
+    border-radius:10px;
+    transform:translateY(100px);
+    opacity:0;
+    transition:.3s;
+    z-index:1000;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:800px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .sidebar.mobile-open{
+        display:block;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 15px;
+        gap:10px;
+    }
+
+    .search{
+        width:100%;
+    }
+
+    .content{
+        padding:20px 15px;
+    }
+
+    .hero{
+        min-height:300px;
+    }
+
+    .hero h2{
+        font-size:28px;
+    }
+
+    .gallery{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
+    }
+
+    .wallpaper{
+        height:250px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:430px){
+
+    .gallery{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .wallpaper{
+        height:220px;
+    }
+
+    .card-info{
+        padding:10px;
+    }
+
+    .card-actions button{
+        font-size:12px;
+    }
+
+    .hero-content{
+        padding:25px;
+    }
+
+    .hero h2{
+        font-size:25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        Wall<span>Zone</span>
+    </div>
+
+    <div class="menu">
+
+        <div class="menu-title">
+            Principal
+        </div>
+
+        <button class="active"
+        onclick="mostrarTodos();cerrarMenu();">
+            🏠 Inicio
+        </button>
+
+        <button
+        onclick="mostrarFavoritos();cerrarMenu();">
+            ❤️ Favoritos
+        </button>
+
+        <button
+        onclick="mostrarRecientes();cerrarMenu();">
+            🆕 Recientes
+        </button>
+
+        <div class="menu-title">
+            Categorías
+        </div>
+
+        <button onclick="filtrar('Anime');cerrarMenu();">
+            🎌 Anime
+        </button>
+
+        <button onclick="filtrar('Gaming');cerrarMenu();">
+            🎮 Gaming
+        </button>
+
+        <button onclick="filtrar('Naturaleza');cerrarMenu();">
+            🌲 Naturaleza
+        </button>
+
+        <button onclick="filtrar('Autos');cerrarMenu();">
+            🏎️ Autos
+        </button>
+
+        <button onclick="filtrar('Espacio');cerrarMenu();">
+            🌌 Espacio
+        </button>
+
+        <button onclick="filtrar('Personal');cerrarMenu();">
+            📁 Mis wallpapers
+        </button>
+
+    </div>
+</aside>
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <button
+    class="icon-btn mobile-menu"
+    onclick="toggleMenu()">
+        ☰
+    </button>
+
+    <div class="search">
+
+        <input
+        id="search"
+        type="text"
+        placeholder="Buscar wallpapers..."
+        oninput="buscar()">
+
+        <span class="search-icon">
+            🔍
+        </span>
+
+    </div>
+
+    <div class="top-actions">
+
+        <button
+        class="icon-btn"
+        onclick="alternarTema()">
+            🌙
+        </button>
+
+    </div>
+
+</header>
+
+<div class="content">
+
+<section>
+
+<h1 class="page-title">
+    Descubre tu próximo wallpaper
+</h1>
+
+<p class="page-subtitle">
+    Tu colección personal de fondos de pantalla.
+</p>
+
+<!-- ================= HERO ================= -->
+
+<div class="hero">
+
+    <div class="hero-content">
+
+        <h2>
+            WallZone
+        </h2>
+
+        <p>
+            Guarda tus wallpapers favoritos,
+            organiza tu colección y descarga
+            tus fondos cuando quieras.
+        </p>
+
+        <button
+        onclick="document.getElementById('fileInput').click()">
+            ➕ Agregar wallpapers
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ================= CATEGORÍAS ================= -->
+
+<section class="section">
+
+<div class="section-header">
+    <h2>🏷️ Categorías</h2>
+</div>
+
+<div class="categories">
+
+    <div class="category"
+    onclick="filtrar('Anime')">
+
+        <img
+        src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&q=80">
+
+        <span>🎌 Anime</span>
+
+    </div>
+
+    <div class="category"
+    onclick="filtrar('Gaming')">
+
+        <img
+        src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80">
+
+        <span>🎮 Gaming</span>
+
+    </div>
+
+    <div class="category"
+    onclick="filtrar('Naturaleza')">
+
+        <img
+        src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=600&q=80">
+
+        <span>🌲 Naturaleza</span>
+
+    </div>
+
+    <div class="category"
+    onclick="filtrar('Autos')">
+
+        <img
+        src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=600&q=80">
+
+        <span>🏎️ Autos</span>
+
+    </div>
+
+    <div class="category"
+    onclick="filtrar('Espacio')">
+
+        <img
+        src="https://images.unsplash.com/photo-1446776877081-d282a0f896e2?auto=format&fit=crop&w=600&q=80">
+
+        <span>🌌 Espacio</span>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- ================= GALERÍA ================= -->
+
+<section class="section">
+
+<div class="section-header">
+
+    <h2 id="galleryTitle">
+        🔥 Todos los wallpapers
+    </h2>
+
+    <button onclick="mostrarTodos()">
+        Ver todos
+    </button>
+
+</div>
+
+<div
+class="gallery"
+id="gallery">
+
+<!-- WALLPAPER DE EJEMPLO -->
+
+<div
+class="card"
+data-category="Anime"
+data-id="demo1">
+
+<button
+class="favorite"
+data-id="demo1"
+onclick="favorito(event,this)">
+♡
+</button>
+
+<img
+class="wallpaper"
+src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=90"
+alt="Anime"
+onclick="abrirModal(this)">
+
+<div class="card-info">
+
+<div class="card-title">
+Anime
+</div>
+
+<div class="card-category">
+Anime
+</div>
+
+<div class="card-actions">
+
+<button onclick="abrirModal(
+this.closest('.card').querySelector('.wallpaper')
+)">
+👁 Ver
+</button>
+
+<button onclick="descargar(this)">
+⬇️
+</button>
+
+</div>
+
+</div>
+</div>
+
+<div
+class="card"
+data-category="Gaming"
+data-id="demo2">
+
+<button
+class="favorite"
+data-id="demo2"
+onclick="favorito(event,this)">
+♡
+</button>
+
+<img
+class="wallpaper"
+src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=90"
+alt="Gaming"
+onclick="abrirModal(this)">
+
+<div class="card-info">
+
+<div class="card-title">
+Gaming
+</div>
+
+<div class="card-category">
+Gaming
+</div>
+
+<div class="card-actions">
+
+<button onclick="abrirModal(
+this.closest('.card').querySelector('.wallpaper')
+)">
+👁 Ver
+</button>
+
+<button onclick="descargar(this)">
+⬇️
+</button>
+
+</div>
+
+</div>
+</div>
+
+<div
+class="card"
+data-category="Naturaleza"
+data-id="demo3">
+
+<button
+class="favorite"
+data-id="demo3"
+onclick="favorito(event,this)">
+♡
+</button>
+
+<img
+class="wallpaper"
+src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=90"
+alt="Naturaleza"
+onclick="abrirModal(this)">
+
+<div class="card-info">
+
+<div class="card-title">
+Naturaleza
+</div>
+
+<div class="card-category">
+Naturaleza
+</div>
+
+<div class="card-actions">
+
+<button onclick="abrirModal(
+this.closest('.card').querySelector('.wallpaper')
+)">
+👁 Ver
+</button>
+
+<button onclick="descargar(this)">
+⬇️
+</button>
+
+</div>
+
+</div>
+</div>
+
+<div
+class="card"
+data-category="Autos"
+data-id="demo4">
+
+<button
+class="favorite"
+data-id="demo4"
+onclick="favorito(event,this)">
+♡
+</button>
+
+<img
+class="wallpaper"
+src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=800&q=90"
+alt="Auto"
+onclick="abrirModal(this)">
+
+<div class="card-info">
+
+<div class="card-title">
+Supercar
+</div>
+
+<div class="card-category">
+Autos
+</div>
+
+<div class="card-actions">
+
+<button onclick="abrirModal(
+this.closest('.card').querySelector('.wallpaper')
+)">
+👁 Ver
+</button>
+
+<button onclick="descargar(this)">
+⬇️
+</button>
+
+</div>
+
+</div>
+</div>
+
+<div
+class="card"
+data-category="Espacio"
+data-id="demo5">
+
+<button
+class="favorite"
+data-id="demo5"
+onclick="favorito(event,this)">
+♡
+</button>
+
+<img
+class="wallpaper"
+src="https://images.unsplash.com/photo-1446776877081-d282a0f896e2?auto=format&fit=crop&w=800&q=90"
+alt="Espacio"
+onclick="abrirModal(this)">
+
+<div class="card-info">
+
+<div class="card-title">
+Galaxy
+</div>
+
+<div class="card-category">
+Espacio
+</div>
+
+<div class="card-actions">
+
+<button onclick="abrirModal(
+this.closest('.card').querySelector('.wallpaper')
+)">
+👁 Ver
+</button>
+
+<button onclick="descargar(this)">
+⬇️
+</button>
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+<div
+class="empty"
+id="empty">
+
+<h2>
+No encontramos wallpapers
+</h2>
+
+<p>
+Prueba con otra búsqueda o categoría.
+</p>
+
+</div>
+
+</section>
+
+<!-- ================= SUBIR ================= -->
+
+<section class="section">
+
+<div class="upload-box">
+
+<h2>
+📸 Agregar muchos wallpapers
+</h2>
+
+<p>
+Puedes seleccionar 20, 50, 100 o más imágenes
+al mismo tiempo.
+<br>
+WallZone las guardará automáticamente.
+</p>
+
+<label
+class="upload-label"
+for="fileInput">
+
+📁 Seleccionar wallpapers
+
+</label>
+
+<input
+id="fileInput"
+type="file"
+accept="image/*"
+multiple
+onchange="agregarWallpapers(event)">
+
+<div
+class="progress-container"
+id="progressContainer">
+
+<div
+class="progress-text"
+id="progressText">
+Preparando...
+</div>
+
+<div class="progress-bar">
+
+<div
+class="progress"
+id="progress">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= ESTADÍSTICAS ================= -->
+
+<section class="section">
+
+<div class="section-header">
+    <h2>📊 Mi colección</h2>
+</div>
+
+<div class="stats">
+
+<div class="stat">
+
+<div
+class="stat-number"
+id="wallpaperCount">
+0
+</div>
+
+<div class="stat-text">
+Wallpapers
+</div>
+
+</div>
+
+<div class="stat">
+
+<div
+class="stat-number"
+id="favoriteCount">
+0
+</div>
+
+<div class="stat-text">
+Favoritos
+</div>
+
+</div>
+
+<div class="stat">
+
+<div
+class="stat-number"
+id="personalCount">
+0
+</div>
+
+<div class="stat-text">
+Mis wallpapers
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</section>
+
+</div>
+
+<footer>
+
+© 2026 WallZone
+<br>
+Tu colección personal de wallpapers.
+
+</footer>
+
+</main>
+
+<!-- ================= MODAL ================= -->
+
+<div
+class="modal"
+id="modal">
+
+<div class="modal-box">
+
+<button
+class="close"
+onclick="cerrarModal()">
+×
+</button>
+
+<img
+id="modalImage"
+class="modal-img">
+
+<div class="modal-info">
+
+<h2 id="modalTitle">
+Wallpaper
+</h2>
+
+<p id="modalCategory">
+Categoría
+</p>
+
+<div class="modal-buttons">
+
+<a
+id="downloadButton"
+download="wallpaper.jpg">
+⬇️ Descargar
+</a>
+
+<button
+id="deleteButton"
+class="delete-modal">
+🗑️ Eliminar
+</button>
+
+<button onclick="cerrarModal()">
+Cerrar
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= TOAST ================= -->
+
+<div
+class="toast"
+id="toast">
+Guardado
+</div>
+
+
+<script>
+
+/* =====================================================
+   WALLZONE
+   SISTEMA DE ALMACENAMIENTO INDEXEDDB
+===================================================== */
+
+const DB_NAME = "WallZoneDB";
+const DB_VERSION = 1;
+const STORE_NAME = "wallpapers";
+
+let db;
+
+let favoritos =
+JSON.parse(
+localStorage.getItem("wallzone_favoritos") || "[]"
+);
+
+let modalWallpaperId = null;
+
+
+/* =====================================================
+   CREAR BASE DE DATOS
+===================================================== */
+
+function iniciarDB(){
+
+    return new Promise((resolve,reject)=>{
+
+        const request =
+        indexedDB.open(
+            DB_NAME,
+            DB_VERSION
+        );
+
+        request.onupgradeneeded =
+        function(event){
+
+            const database =
+            event.target.result;
+
+            if(
+                !database.objectStoreNames.contains(
+                    STORE_NAME
+                )
+            ){
+
+                const store =
+                database.createObjectStore(
+                    STORE_NAME,
+                    {
+                        keyPath:"id"
+                    }
+                );
+
+                store.createIndex(
+                    "category",
+                    "category",
+                    {unique:false}
+                );
+
+                store.createIndex(
+                    "created",
+                    "created",
+                    {unique:false}
+                );
+
+            }
+
+        };
+
+        request.onsuccess =
+        function(event){
+
+            db =
+            event.target.result;
+
+            resolve(db);
+
+        };
+
+        request.onerror =
+        function(){
+
+            reject(
+                request.error
+            );
+
+        };
+
+    });
+
+}
+
+
+/* =====================================================
+   GUARDAR WALLPAPER
+===================================================== */
+
+function guardarWallpaper(wallpaper){
+
+    return new Promise((resolve,reject)=>{
+
+        const transaction =
+        db.transaction(
+            STORE_NAME,
+            "readwrite"
+        );
+
+        const store =
+        transaction.objectStore(
+            STORE_NAME
+        );
+
+        const request =
+        store.put(wallpaper);
+
+        request.onsuccess =
+        () => resolve();
+
+        request.onerror =
+        () => reject(request.error);
+
+    });
+
+}
+
+
+/* =====================================================
+   OBTENER TODOS
+===================================================== */
+
+function obtenerWallpapers(){
+
+    return new Promise((resolve,reject)=>{
+
+        const transaction =
+        db.transaction(
+            STORE_NAME,
+            "readonly"
+        );
+
+        const store =
+        transaction.objectStore(
+            STORE_NAME
+        );
+
+        const request =
+        store.getAll();
+
+        request.onsuccess =
+        () => resolve(request.result);
+
+        request.onerror =
+        () => reject(request.error);
+
+    });
+
+}
+
+
+/* =====================================================
+   ELIMINAR
+===================================================== */
+
+function eliminarWallpaper(id){
+
+    return new Promise((resolve,reject)=>{
+
+        const transaction =
+        db.transaction(
+            STORE_NAME,
+            "readwrite"
+        );
+
+        const store =
+        transaction.objectStore(
+            STORE_NAME
+        );
+
+        const request =
+        store.delete(id);
+
+        request.onsuccess =
+        () => resolve();
+
+        request.onerror =
+        () => reject(request.error);
+
+    });
+
+}
+
+
+/* =====================================================
+   CONVERTIR ARCHIVO A BASE64
+===================================================== */
+
+function archivoABase64(file){
+
+    return new Promise((resolve,reject)=>{
+
+        const reader =
+        new FileReader();
+
+        reader.onload =
+        () => resolve(reader.result);
+
+        reader.onerror =
+        () => reject(reader.error);
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+
+/* =====================================================
+   AGREGAR MUCHOS WALLPAPERS
+===================================================== */
+
+async function agregarWallpapers(event){
+
+    const archivos =
+    Array.from(event.target.files);
+
+    if(!archivos.length){
+        return;
+    }
+
+    const progressContainer =
+    document.getElementById(
+        "progressContainer"
+    );
+
+    const progress =
+    document.getElementById(
+        "progress"
+    );
+
+    const progressText =
+    document.getElementById(
+        "progressText"
+    );
+
+    progressContainer.classList.add("show");
+
+    let guardados = 0;
+
+    for(
+        let i=0;
+        i<archivos.length;
+        i++
+    ){
+
+        const archivo =
+        archivos[i];
+
+        try{
+
+            const base64 =
+            await archivoABase64(
+                archivo
+            );
+
+            const wallpaper = {
+
+                id:
+                "wall_" +
+                Date.now() +
+                "_" +
+                Math.random()
+                .toString(36)
+                .substring(2),
+
+                name:
+                archivo.name
+                .replace(/\.[^/.]+$/,""),
+
+                category:
+                "Personal",
+
+                image:
+                base64,
+
+                created:
+                Date.now()
+
+            };
+
+            await guardarWallpaper(
+                wallpaper
+            );
+
+            guardados++;
+
+            const porcentaje =
+            Math.round(
+                (guardados /
+                archivos.length) * 100
+            );
+
+            progress.style.width =
+            porcentaje + "%";
+
+            progressText.textContent =
+            "Guardando " +
+            guardados +
+            " de " +
+            archivos.length;
+
+        }catch(error){
+
+            console.error(error);
+
+        }
+
+    }
+
+    progressText.textContent =
+    "✅ " +
+    guardados +
+    " wallpapers agregados";
+
+    mostrarToast(
+        "✅ " +
+        guardados +
+        " wallpapers guardados"
+    );
+
+    event.target.value="";
+
+    await cargarWallpapers();
+
+    setTimeout(()=>{
+
+        progressContainer
+        .classList.remove("show");
+
+        progress.style.width="0%";
+
+    },3000);
+
+}
+
+
+/* =====================================================
+   CREAR TARJETA
+===================================================== */
+
+function crearCard(wallpaper){
+
+    const gallery =
+    document.getElementById(
+        "gallery"
+    );
+
+    const card =
+    document.createElement("div");
+
+    card.className="card";
+
+    card.dataset.id =
+    wallpaper.id;
+
+    card.dataset.category =
+    wallpaper.category;
+
+    const liked =
+    favoritos.includes(
+        wallpaper.id
+    );
+
+    card.innerHTML = `
+
+        <button
+        class="favorite ${liked ? "liked":""}"
+        data-id="${wallpaper.id}"
+        onclick="favorito(event,this)">
+
+        ${liked ? "♥":"♡"}
+
+        </button>
+
+        <img
+        class="wallpaper"
+        src="${wallpaper.image}"
+        alt="${escapeHTML(wallpaper.name)}"
+        onclick="abrirModal(this)">
+
+        <div class="card-info">
+
+            <div class="card-title">
+                ${escapeHTML(wallpaper.name)}
+            </div>
+
+            <div class="card-category">
+                ${escapeHTML(wallpaper.category)}
+            </div>
+
+            <div class="card-actions">
+
+                <button
+                onclick="abrirModal(
+                this.closest('.card')
+                .querySelector('.wallpaper')
+                )">
+
+                    👁 Ver
+
+                </button>
+
+                <button
+                onclick="descargar(this)">
+
+                    ⬇️
+
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+    gallery.appendChild(card);
+
+}
+
+
+/* =====================================================
+   ESCAPAR TEXTO
+===================================================== */
+
+function escapeHTML(text){
+
+    const div =
+    document.createElement("div");
+
+    div.textContent =
+    text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   CARGAR WALLPAPERS
+===================================================== */
+
+async function cargarWallpapers(){
+
+    const wallpapers =
+    await obtenerWallpapers();
+
+    const gallery =
+    document.getElementById(
+        "gallery"
+    );
+
+    document
+    .querySelectorAll(
+        ".card[data-id]"
+    )
+    .forEach(card=>{
+
+        if(
+            !card.dataset.id.startsWith("demo")
+        ){
+
+            card.remove();
+
+        }
+
+    });
+
+    wallpapers
+    .sort(
+        (a,b)=>
+        b.created-a.created
+    )
+    .forEach(
+        wallpaper =>
+        crearCard(wallpaper)
+    );
+
+    actualizarContadores();
+
+}
+
+
+/* =====================================================
+   FAVORITOS
+===================================================== */
+
+function favorito(event,button){
+
+    event.stopPropagation();
+
+    const id =
+    button.dataset.id;
+
+    if(
+        favoritos.includes(id)
+    ){
+
+        favoritos =
+        favoritos.filter(
+            x=>x!==id
+        );
+
+        button.classList.remove(
+            "liked"
+        );
+
+        button.textContent="♡";
+
+        mostrarToast(
+            "Eliminado de favoritos"
+        );
+
+    }else{
+
+        favoritos.push(id);
+
+        button.classList.add(
+            "liked"
+        );
+
+        button.textContent="♥";
+
+        mostrarToast(
+            "❤️ Agregado a favoritos"
+        );
+
+    }
+
+    localStorage.setItem(
+        "wallzone_favoritos",
+        JSON.stringify(favoritos)
+    );
+
+    actualizarContadores();
+
+}
+
+
+/* =====================================================
+   MOSTRAR FAVORITOS
+===================================================== */
+
+function mostrarFavoritos(){
+
+    cerrarMenu();
+
+    const cards =
+    document.querySelectorAll(
+        ".card"
+    );
+
+    let encontrados=0;
+
+    cards.forEach(card=>{
+
+        const id =
+        card.dataset.id;
+
+        if(
+            favoritos.includes(id)
+        ){
+
+            card.style.display="";
+            encontrados++;
+
+        }else{
+
+            card.style.display="none";
+
+        }
+
+    });
+
+    document
+    .getElementById(
+        "galleryTitle"
+    )
+    .textContent =
+    "❤️ Mis favoritos";
+
+    mostrarEmpty(
+        encontrados
+    );
+
+}
+
+
+/* =====================================================
+   FILTRAR
+===================================================== */
+
+function filtrar(categoria){
+
+    const cards =
+    document.querySelectorAll(
+        ".card"
+    );
+
+    let encontrados=0;
+
+    cards.forEach(card=>{
+
+        if(
+            card.dataset.category ===
+            categoria
+        ){
+
+            card.style.display="";
+            encontrados++;
+
+        }else{
+
+            card.style.display="none";
+
+        }
+
+    });
+
+    document
+    .getElementById(
+        "galleryTitle"
+    )
+    .textContent =
+    "🏷️ " + categoria;
+
+    mostrarEmpty(
+        encontrados
+    );
+
+}
+
+
+/* =====================================================
+   MOSTRAR TODOS
+===================================================== */
+
+function mostrarTodos(){
+
+    const cards =
+    document.querySelectorAll(
+        ".card"
+    );
+
+    cards.forEach(card=>{
+
+        card.style.display="";
+
+    });
+
+    document
+    .getElementById(
+        "galleryTitle"
+    )
+    .textContent =
+    "🔥 Todos los wallpapers";
+
+    document
+    .getElementById(
+        "empty"
+    )
+    .style.display="none";
+
+}
+
+
+/* =====================================================
+   BUSCAR
+===================================================== */
+
+function buscar(){
+
+    const texto =
+    document
+    .getElementById(
+        "search"
+    )
+    .value
+    .toLowerCase()
+    .trim();
+
+    const cards =
+    document.querySelectorAll(
+        ".card"
+    );
+
+    let encontrados=0;
+
+    cards.forEach(card=>{
+
+        const titulo =
+        card
+        .querySelector(
+            ".card-title"
+        )
+        .textContent
+        .toLowerCase();
+
+        const categoria =
+        card
+        .querySelector(
+            ".card-category"
+        )
+        .textContent
+        .toLowerCase();
+
+        if(
+            titulo.includes(texto) ||
+            categoria.includes(texto)
+        ){
+
+            card.style.display="";
+            encontrados++;
+
+        }else{
+
+            card.style.display="none";
+
+        }
+
+    });
+
+    mostrarEmpty(
+        encontrados
+    );
+
+}
+
+
+/* =====================================================
+   RECIENTES
+===================================================== */
+
+async function mostrarRecientes(){
+
+    const wallpapers =
+    await obtenerWallpapers();
+
+    mostrarTodos();
+
+    const ids =
+    wallpapers
+    .sort(
+        (a,b)=>b.created-a.created
+    )
+    .map(x=>x.id);
+
+    const cards =
+    document.querySelectorAll(
+        ".card"
+    );
+
+    cards.forEach(card=>{
+
+        if(
+            !ids.includes(
+                card.dataset.id
+            )
+        ){
+
+            card.style.display="none";
+
+        }
+
+    });
+
+    document
+    .getElementById(
+        "galleryTitle"
+    )
+    .textContent =
+    "🆕 Wallpapers recientes";
+
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+function mostrarEmpty(cantidad){
+
+    document
+    .getElementById(
+        "empty"
+    )
+    .style.display =
+    cantidad === 0 ?
+    "block" :
+    "none";
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function abrirModal(imagen){
+
+    if(
+        !imagen ||
+        !imagen.src
+    ){
+        return;
+    }
+
+    const modal =
+    document.getElementById(
+        "modal"
+    );
+
+    const modalImage =
+    document.getElementById(
+        "modalImage"
+    );
+
+    const card =
+    imagen.closest(
+        ".card"
+    );
+
+    modalWallpaperId =
+    card ?
+    card.dataset.id :
+    null;
+
+    const title =
+    card ?
+    card.querySelector(
+        ".card-title"
+    ).textContent :
+    "Wallpaper";
+
+    const category =
+    card ?
+    card.querySelector(
+        ".card-category"
+    ).textContent :
+    "";
+
+    modalImage.src =
+    imagen.src;
+
+    document
+    .getElementById(
+        "modalTitle"
+    )
+    .textContent =
+    title;
+
+    document
+    .getElementById(
+        "modalCategory"
+    )
+    .textContent =
+    category;
+
+    document
+    .getElementById(
+        "downloadButton"
+    )
+    .href =
+    imagen.src;
+
+    document
+    .getElementById(
+        "deleteButton"
+    )
+    .style.display =
+    modalWallpaperId &&
+    modalWallpaperId.startsWith(
+        "wall_"
+    )
+    ?
+    "inline-block"
+    :
+    "none";
+
+    modal.classList.add(
+        "show"
+    );
+
+}
+
+
+/* =====================================================
+   CERRAR MODAL
+===================================================== */
+
+function cerrarModal(){
+
+    document
+    .getElementById(
+        "modal"
+    )
+    .classList.remove(
+        "show"
+    );
+
+    modalWallpaperId=null;
+
+}
+
+
+/* =====================================================
+   ELIMINAR DESDE MODAL
+===================================================== */
+
+document
+.getElementById(
+    "deleteButton"
+)
+.addEventListener(
+    "click",
+    async function(){
+
+        if(
+            !modalWallpaperId
+        ){
+            return;
+        }
+
+        const confirmar =
+        confirm(
+            "¿Eliminar este wallpaper?"
+        );
+
+        if(!confirmar){
+            return;
+        }
+
+        await eliminarWallpaper(
+            modalWallpaperId
+        );
+
+        favoritos =
+        favoritos.filter(
+            id =>
+            id !== modalWallpaperId
+        );
+
+        localStorage.setItem(
+            "wallzone_favoritos",
+            JSON.stringify(
+                favoritos
+            )
+        );
+
+        cerrarModal();
+
+        await cargarWallpapers();
+
+        mostrarToast(
+            "🗑️ Wallpaper eliminado"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   DESCARGAR
+===================================================== */
+
+function descargar(button){
+
+    const card =
+    button.closest(
+        ".card"
+    );
+
+    const img =
+    card.querySelector(
+        ".wallpaper"
+    );
+
+    const link =
+    document.createElement(
+        "a"
+    );
+
+    link.href =
+    img.src;
+
+    link.download =
+    "wallpaper.jpg";
+
+    document.body.appendChild(
+        link
+    );
+
+    link.click();
+
+    link.remove();
+
+}
+
+
+/* =====================================================
+   CONTADORES
+===================================================== */
+
+async function actualizarContadores(){
+
+    const wallpapers =
+    await obtenerWallpapers();
+
+    const cantidadDemo =
+    document.querySelectorAll(
+        ".card[data-id^='demo']"
+    ).length;
+
+    document
+    .getElementById(
+        "wallpaperCount"
+    )
+    .textContent =
+    wallpapers.length +
+    cantidadDemo;
+
+    document
+    .getElementById(
+        "favoriteCount"
+    )
+    .textContent =
+    favoritos.length;
+
+    document
+    .getElementById(
+        "personalCount"
+    )
+    .textContent =
+    wallpapers.length;
+
+}
+
+
+/* =====================================================
+   TEMA
+===================================================== */
+
+function alternarTema(){
+
+    const root =
+    document.documentElement;
+
+    const claro =
+    root.dataset.theme ===
+    "light";
+
+    if(!claro){
+
+        root.dataset.theme="light";
+
+        root.style.setProperty(
+            "--bg",
+            "#f2f3f7"
+        );
+
+        root.style.setProperty(
+            "--panel",
+            "#ffffff"
+        );
+
+        root.style.setProperty(
+            "--panel2",
+            "#e8e9ef"
+        );
+
+        root.style.setProperty(
+            "--text",
+            "#111111"
+        );
+
+        root.style.setProperty(
+            "--muted",
+            "#666"
+        );
+
+        document
+        .querySelectorAll(
+            ".search input"
+        )
+        .forEach(input=>{
+            input.style.color="#111";
+        });
+
+    }else{
+
+        root.dataset.theme="";
+
+        root.style.setProperty(
+            "--bg",
+            "#08090d"
+        );
+
+        root.style.setProperty(
+            "--panel",
+            "#11131a"
+        );
+
+        root.style.setProperty(
+            "--panel2",
+            "#191c25"
+        );
+
+        root.style.setProperty(
+            "--text",
+            "#fff"
+        );
+
+        root.style.setProperty(
+            "--muted",
+            "#9297a5"
+        );
+
+        document
+        .querySelectorAll(
+            ".search input"
+        )
+        .forEach(input=>{
+            input.style.color="white";
+        });
+
+    }
+
+}
+
+
+/* =====================================================
+   MENÚ MÓVIL
+===================================================== */
+
+function toggleMenu(){
+
+    document
+    .getElementById(
+        "sidebar"
+    )
+    .classList.toggle(
+        "mobile-open"
+    );
+
+}
+
+function cerrarMenu(){
+
+    document
+    .getElementById(
+        "sidebar"
+    )
+    .classList.remove(
+        "mobile-open"
+    );
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+function mostrarToast(texto){
+
+    const toast =
+    document.getElementById(
+        "toast"
+    );
+
+    toast.textContent =
+    texto;
+
+    toast.classList.add(
+        "show"
+    );
+
+    clearTimeout(
+        toastTimer
+    );
+
+    toastTimer =
+    setTimeout(
+        ()=>{
+            toast.classList.remove(
+                "show"
+            );
+        },
+        2500
+    );
+
+}
+
+
+/* =====================================================
+   CERRAR MODAL AL TOCAR FUERA
+===================================================== */
+
+document
+.getElementById(
+    "modal"
+)
+.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target === this
+        ){
+
+            cerrarModal();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ESC
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Escape"
+        ){
+
+            cerrarModal();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   INICIAR WALLZONE
+===================================================== */
+
+async function iniciar(){
+
+    try{
+
+        await iniciarDB();
+
+        await cargarWallpapers();
+
+        actualizarContadores();
+
+    }catch(error){
+
+        console.error(
+            "Error iniciando WallZone:",
+            error
+        );
+
+        mostrarToast(
+            "⚠️ No se pudo iniciar el almacenamiento"
+        );
+
+    }
+
+}
+
+iniciar();
+
+</script>
+
+</body>
+</html>
